@@ -1,185 +1,789 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>LeTungLam</title>
+    <title>Lê Tùng Lâm - Java Developer</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Lê Tùng Lâm - Java Backend Developer (Spring Boot, Microservice) tại Hanoi, Vietnam">
     <link rel="shortcut icon" href="img/favicon.jpg">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        html, body, h1, h2, h3, h4, h5, h6 {
-            font-family: "Roboto", sans-serif;
+        :root {
+            --bg: #f1f5f9;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #0d9488;
+            --accent-2: #0891b2;
+            --accent-soft: #ccfbf1;
+            --accent-soft-text: #0f766e;
+            --shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06);
+            --hero-from: #0f766e;
+            --hero-to: #0e7490;
         }
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b1220;
+                --surface: #131c2e;
+                --text: #e2e8f0;
+                --muted: #94a3b8;
+                --border: #1f2b42;
+                --accent: #2dd4bf;
+                --accent-2: #22d3ee;
+                --accent-soft: rgba(45, 212, 191, .14);
+                --accent-soft-text: #5eead4;
+                --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+                --hero-from: #115e59;
+                --hero-to: #155e75;
+            }
         }
 
-        .profile-card {
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .page {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 32px 16px 56px;
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            padding: 36px;
+            border-radius: 24px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .08);
+            pointer-events: none;
+        }
+
+        .hero::before { width: 320px; height: 320px; top: -140px; right: -80px; }
+        .hero::after { width: 200px; height: 200px; bottom: -100px; left: 30%; }
+
+        .avatar {
+            position: relative;
+            z-index: 1;
+            flex: none;
+            width: 168px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid rgba(255, 255, 255, .85);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .25);
+        }
+
+        .hero-body { position: relative; z-index: 1; min-width: 0; }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(28px, 5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -.02em;
+            line-height: 1.15;
+        }
+
+        .role {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 4px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .16);
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 999px;
+        }
+
+        .contacts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 20px;
+            margin: 22px 0 0;
+            padding: 0;
+            list-style: none;
+            font-size: 14.5px;
+        }
+
+        .contacts li {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
+            min-width: 0;
         }
 
-        .profile-card img {
-            width: 160px; /* Tăng kích thước chiều rộng */
-            height: 220px; /* Tăng kích thước chiều cao */
-            object-fit: cover;
-            margin-right: 20px;
-        }
-
-        .profile-card div {
-            flex: 1;
-        }
-
-        .profile-card p {
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        .profile-card i {
-            color: teal;
-            margin-right: 10px;
-        }
-
-        .section {
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            padding: 20px;
+        .contacts i {
+            flex: none;
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            font-size: 15px;
+            background: rgba(255, 255, 255, .16);
             border-radius: 10px;
+        }
+
+        .contacts span, .contacts a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .contacts a:hover { text-decoration: underline; }
+
+        /* ---------- Sections ---------- */
+        .section {
+            margin-top: 24px;
+            padding: 28px 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
         }
 
         .section h2 {
-            color: teal;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 20px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -.01em;
         }
 
-        .section p, .section h5, .section h6 {
-            margin: 10px 0;
+        .section h2 i {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            font-size: 17px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 12px;
+        }
+
+        .section p { margin: 0; }
+        .section p + p { margin-top: 8px; }
+
+        .muted { color: var(--muted); }
+
+        .about-tags { margin-top: 16px; }
+
+        /* ---------- Skills ---------- */
+        .skill-group + .skill-group { margin-top: 18px; }
+
+        .skill-group h3 {
+            margin: 0 0 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .tag {
+            padding: 4px 12px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--accent-soft-text);
+            background: var(--accent-soft);
+            border-radius: 999px;
+            transition: transform .15s ease;
+        }
+
+        .tag:hover { transform: translateY(-2px); }
+
+        .skill-notes {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px dashed var(--border);
+        }
+
+        /* ---------- Timeline ---------- */
+        .timeline {
+            position: relative;
+            margin: 0;
+            padding: 0 0 0 28px;
+            list-style: none;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 7px;
+            width: 2px;
+            background: linear-gradient(var(--accent), var(--border));
+        }
+
+        .job { position: relative; padding-bottom: 28px; }
+        .job:last-child { padding-bottom: 0; }
+
+        .job::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: -28px;
+            width: 16px;
+            height: 16px;
+            background: var(--surface);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        .job h3 { margin: 0; font-size: 17px; font-weight: 700; }
+        .job h3 small { font-size: 15px; font-weight: 500; color: var(--muted); }
+
+        .period {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-soft-text);
+        }
+
+        .badge {
+            padding: 1px 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 999px;
+        }
+
+        .job ul { margin: 0; padding-left: 18px; color: var(--muted); }
+        .job li + li { margin-top: 4px; }
+        .job li::marker { color: var(--accent); }
+
+        /* ---------- Projects ---------- */
+        .project {
+            padding: 22px 24px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .project + .project { margin-top: 16px; }
+
+        .project-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 4px 16px;
+        }
+
+        .project h3 { margin: 0; font-size: 17px; font-weight: 700; }
+        .project .period { margin: 0; }
+
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 20px;
+            margin: 10px 0 12px;
+            font-size: 13.5px;
+            color: var(--muted);
+        }
+
+        .meta i { color: var(--accent); }
+        .meta b { color: var(--text); font-weight: 600; }
+
+        .project h4 {
+            margin: 16px 0 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .project ul { margin: 0; padding-left: 18px; }
+        .project li + li { margin-top: 4px; }
+        .project li::marker { color: var(--accent); }
+        .project .features { margin-top: 8px; color: var(--muted); }
+        .project .features b { color: var(--text); font-weight: 600; }
+        .project .tech { margin-top: 16px; }
+        .project .tech .tag { font-size: 12.5px; padding: 2px 10px; }
+
+        /* ---------- Awards ---------- */
+        .award { display: flex; align-items: center; gap: 14px; }
+
+        .award-year {
+            flex: none;
+            padding: 4px 14px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 999px;
+        }
+
+        /* ---------- Hobbies ---------- */
+        .hobbies {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .hobby {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            font-weight: 500;
+            font-size: 14.5px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .hobby i { font-size: 20px; color: var(--accent); }
+
+        /* ---------- Footer ---------- */
+        footer { margin-top: 32px; text-align: center; color: var(--muted); font-size: 14px; }
+
+        .social { display: flex; justify-content: center; gap: 12px; margin: 14px 0; }
+
+        .social a {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            color: var(--accent);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            transition: transform .15s ease, color .15s ease, background .15s ease;
+        }
+
+        .social a:hover { transform: translateY(-3px); color: #fff; background: var(--accent); }
+
+        footer a:not(.social a) { color: var(--accent); font-weight: 600; }
+
+        a:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 2px; border-radius: 6px; }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 720px) {
+            .hero { flex-direction: column; text-align: center; padding: 28px 20px; gap: 22px; }
+            .avatar { width: 150px; height: 190px; }
+            .contacts { grid-template-columns: 1fr; text-align: left; }
+            .section { padding: 22px 20px; }
+            .hobbies { grid-template-columns: 1fr; }
+            .project { padding: 18px 16px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .tag, .social a { transition: none; }
+        }
+
+        @media print {
+            body { background: #fff; }
+            .section, .hero { box-shadow: none; }
+            .social { display: none; }
+            .project { break-inside: avoid; }
         }
     </style>
 </head>
-<body class="w3-light-grey">
+<body>
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top container">
+<main class="page">
 
-    <!-- Profile Section -->
-    <div class="profile-card">
-        <img src="img/avatar.jpg" alt="Avatar">
-        <div>
-            <p><i class="fa fas fa-heart fa-fw w3-large"></i>Lê Tùng Lâm</p>
-            <p><i class="fa fa-briefcase fa-fw w3-large"></i>Java Developer</p>
-            <p><i class="fa fa-home fa-fw w3-large"></i>Hanoi, Vietnam</p>
-            <p><i class="fa fa-envelope fa-fw w3-large"></i>letunglam.dev@gmail.com</p>
-            <p><i class="fa fa-phone fa-fw w3-large"></i>0986296471</p>
-            <p><i class="fa fa-github fa-fw w3-large"></i><a href="https://github.com/lamlt1211" target="_blank">https://github.com/lamlt1211</a>
-            </p>
+    <!-- Profile -->
+    <header class="hero">
+        <img class="avatar" src="img/avatar.jpg" alt="Ảnh đại diện Lê Tùng Lâm">
+        <div class="hero-body">
+            <h1>Lê Tùng Lâm</h1>
+            <div class="role"><i class="fa fa-briefcase"></i>Java Backend Developer</div>
+            <ul class="contacts">
+                <li><i class="fa fa-home"></i><span>Hanoi, Vietnam</span></li>
+                <li><i class="fa fa-phone"></i><a href="tel:0986296471">0986296471</a></li>
+                <li><i class="fa fa-envelope"></i><a href="mailto:letunglam.dev@gmail.com">letunglam.dev@gmail.com</a></li>
+                <li><i class="fa fa-github"></i><a href="https://github.com/lamlt1211" target="_blank" rel="noopener">github.com/lamlt1211</a></li>
+            </ul>
         </div>
-    </div>
+    </header>
 
-    <div class="section">
-        <h2><i class="fa fa-globe fa-fw"></i>Objective</h2>
-        <p>Looking forward to working in a professional, stable and developing environment for a long-term commitment
-            with the company. The goal of becoming a good developer. Hope to bring value to myself as well as the
-            organization.</p>
-    </div>
-
-<!--    <div class="section">-->
-<!--        <h2><i class="fa fa-graduation-cap fa-fw"></i>Education</h2>-->
-<!--        <div class="w3-container">-->
-<!--            <h5 class="w3-opacity"><b>Bachkhoa-Aptech</b></h5>-->
-<!--            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Oct 2017 - Oct 2020</h6>-->
-<!--            <p>Major: Information Technology</p>-->
-<!--            <p>Certificate: Credit</p>-->
-<!--            <hr>-->
-<!--        </div>-->
-<!--    </div>-->
-    
-    <div class="section">
-        <h2><i class="fa fa-asterisk fa-fw"></i>Skills</h2>
-        <p><b>Programming Language: </b>Have more than 2 years of experience working with Java
-            programming language (Spring Boot, Spring Security)</p>
-        <p><b>Backend:</b>Spring Boot, Spring MVC, Spring Security, Spring Data, Hibernate  </p>
-        <p><b>Database: </b>Have work experience with Oracle SQL, SQL Server, My SQL</p>
-        <p><b>API :</b>RESTful API, Swagger</p>
-        <p><b>CICD :</b>Jenkins, Gitlab CI/CD</p>
-        <p><b>Tools Build: </b> Worked with IntelliJ, Net beans, Visual Studio, Eclipse</p>
-        <p><b>Source Control: </b>Can use proficient Git on platforms like GitHub, GitLab, Source Tree,
-            Smart Git</p>
-        <p><b>English: </b>Able to read and understand documents in English</p>
-        <p><b>Other Skills: </b>Have experience working with Microservice, Design Patterns, Docker, Gradle, Maven.</p>
-        <p>Understand the software deployment process clearly Agile, Scrum, Jira</p>
-        <p>Good communication and teamwork skills.</p>
-    </div>
-
-    <!-- Work Experience Section -->
-    <div class="section">
-        <h2><i class="fa fa-suitcase fa-fw"></i>Work Experience</h2>
-        <div>
-            <h5 class="w3-opacity"><b>Backend Developer - Lendbiz</b></h5>
-            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2023 - <span
-                    class="w3-tag w3-teal w3-round">Current</span></h6>
-            <p>Làm mình làm mẩy</p>
+    <!-- About -->
+    <section class="section">
+        <h2><i class="fa fa-user"></i>About</h2>
+        <p>Java Backend Developer based in Hanoi with 4 years of programming experience, more than 3 of them working
+            with Java. Experienced in building back-end modules and RESTful APIs with Spring Boot, Spring Security and
+            Hibernate, on Oracle, PostgreSQL, SQL Server and MySQL. Has delivered products and government systems
+            using Microservice architecture, Jenkins CI/CD and Docker, in Agile/Scrum teams with strong communication
+            and teamwork.</p>
+        <p>Looking for a professional, stable and growing environment for long-term commitment, with the goal of
+            becoming a good developer and bringing value to both myself and the organization.</p>
+        <div class="tags about-tags">
+            <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">RESTful API</span>
+            <span class="tag">Microservice</span><span class="tag">Oracle SQL</span><span class="tag">Agile / Scrum</span>
         </div>
-        <div>
-            <h5 class="w3-opacity"><b>Java Developer - Savvycom Software</b></h5>
-            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Aug 2021 - Dec 2022</h6>
-            <p>- Join the company internal training project - Timesheet</p>
-            <p>- Join project outsource teambase and fixed cost</p>
-            <p>- Develop back-end modules in projects</p>
+    </section>
+
+    <!-- Work Experience -->
+    <section class="section">
+        <h2><i class="fa fa-suitcase"></i>Work Experience</h2>
+        <ol class="timeline">
+            <li class="job">
+                <h3>Java Backend Developer <small>- Tinasoft (Onsite VTS)</small></h3>
+                <div class="period"><i class="fa fa-calendar"></i>Jan 2026 - <span class="badge">Present</span></div>
+                <ul>
+                    <li>Participate in the company's product project</li>
+                    <li>Develop back-end modules in projects</li>
+                </ul>
+            </li>
+            <li class="job">
+                <h3>Java Backend Developer <small>- Lendbiz</small></h3>
+                <div class="period"><i class="fa fa-calendar"></i>Mar 2023 - Nov 2025</div>
+                <ul>
+                    <li>Participated in the company's product project</li>
+                    <li>Developed back-end and front-end modules in projects</li>
+                </ul>
+            </li>
+            <li class="job">
+                <h3>Java Developer <small>- Savvycom Software</small></h3>
+                <div class="period"><i class="fa fa-calendar"></i>Aug 2021 - Dec 2022</div>
+                <ul>
+                    <li>Joined the company's internal training project - Timesheet</li>
+                    <li>Joined outsourced projects (team-based and fixed-cost)</li>
+                    <li>Developed back-end modules in projects</li>
+                </ul>
+            </li>
+            <li class="job">
+                <h3>Unity Developer (Internship) <small>- Monster Game Studio</small></h3>
+                <div class="period"><i class="fa fa-calendar"></i>Mar 2021 - May 2021</div>
+                <ul>
+                    <li>Training in C#, SOLID, Design Pattern, Unity</li>
+                    <li>Participated in making a mini game that was released on CH Play and the App Store</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <!-- Skills -->
+    <section class="section">
+        <h2><i class="fa fa-asterisk"></i>Skills</h2>
+
+        <div class="skill-group">
+            <h3>Programming Languages</h3>
+            <div class="tags"><span class="tag">Java</span></div>
+            <p class="muted" style="margin-top:8px">4 years of programming experience and more than 3 years of experience working with Java.</p>
         </div>
-        <div>
-            <h5 class="w3-opacity"><b>Unity Developer - Monster Game Studio</b></h5>
-            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2021 - May 2021</h6>
-            <p>- Training in SOLID, Design Pattern, Unity</p>
-            <p>- Join making a mini game</p>
+
+        <div class="skill-group">
+            <h3>Backend</h3>
+            <div class="tags">
+                <span class="tag">Spring Boot</span><span class="tag">Spring MVC</span><span class="tag">Spring Security</span>
+                <span class="tag">Spring Data JPA</span><span class="tag">Hibernate</span>
+            </div>
         </div>
-        <div>
-            <h5 class="w3-opacity"><b>Java Developer - SmartOSC Fintech</b></h5>
-            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Dec 2019 - Nov 2020</h6>
-            <p>- Take part in training academy of company about Java core, Spring framework, MySQL, Restful API,
-                Thymeleaf, Postman</p>
-            <p>- Write Code, Fix bugs, Write Unit Test</p>
-            <p>- Code followed by basic design as requirements of customers</p>
-            <p>- Participate in and research projects from Viettel side</p>
+
+        <div class="skill-group">
+            <h3>Database</h3>
+            <div class="tags">
+                <span class="tag">SQL Server</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span>
+                <span class="tag">Oracle SQL (Stored Procedure)</span><span class="tag">Redis (NoSQL)</span>
+            </div>
         </div>
+
+        <div class="skill-group">
+            <h3>API</h3>
+            <div class="tags"><span class="tag">RESTful API</span><span class="tag">Swagger</span></div>
+        </div>
+
+        <div class="skill-group">
+            <h3>CI/CD</h3>
+            <div class="tags"><span class="tag">Jenkins</span><span class="tag">GitLab CI</span></div>
+        </div>
+
+        <div class="skill-group">
+            <h3>Development Tools</h3>
+            <div class="tags">
+                <span class="tag">IntelliJ</span><span class="tag">NetBeans</span><span class="tag">Visual Studio</span><span class="tag">Eclipse</span>
+            </div>
+        </div>
+
+        <div class="skill-group">
+            <h3>Source Control</h3>
+            <div class="tags">
+                <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">GitLab</span>
+                <span class="tag">SourceTree</span><span class="tag">SmartGit</span>
+            </div>
+        </div>
+
+        <div class="skill-group">
+            <h3>Other Skills</h3>
+            <div class="tags">
+                <span class="tag">Microservice</span><span class="tag">Design Patterns</span><span class="tag">Docker</span>
+                <span class="tag">Gradle</span><span class="tag">Maven</span>
+                <span class="tag">Agile</span><span class="tag">Scrum</span><span class="tag">Jira</span><span class="tag">Confluence</span>
+            </div>
+        </div>
+
+        <div class="skill-notes">
+            <p><b>English:</b> <span class="muted">Able to read and understand documents in English</span></p>
+            <p><b>Deployment:</b> <span class="muted">Clear understanding of the software deployment process (Agile, Scrum, Jira, Confluence)</span></p>
+            <p><b>Soft skills:</b> <span class="muted">Good communication and teamwork skills.</span></p>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section">
+        <h2><i class="fa fa-wrench"></i>Projects</h2>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>CSDL Đảng viên</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Jan 2026 - <span class="badge">Present</span></div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Ban Tổ chức Trung ương</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 15</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Java Developer</span>
+            </div>
+            <p class="muted">The Party membership database is a project of the Central Organization Commission. Allows
+                management of Party organizations (list of organizations, transfer of Party organization, decision on
+                establishment), Party member records (list of party members, party membership book, party member
+                registration book...), transfer of activities (records for moving in, moving out, transferring
+                abroad), Party membership cards (decision on granting degrees, list of printing approval, checking
+                Party cards) and Party badges (request for party badges, list of donation proposals, party badge
+                donation book) by commune level, provincial and central.</p>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li>Developed back-end features using Java (Spring Boot) for the system</li>
+                <li>Implemented RESTful APIs for services</li>
+                <li>Designed and optimized database using Oracle</li>
+                <li>Wrote SQL queries, handled CRUD operations, and improved query performance</li>
+                <li>Analyzed requirements and translated them into technical solutions</li>
+                <li>Debugged and resolved application issues to improve system stability</li>
+            </ul>
+            <div class="tags tech"><span class="tag">Microservice</span><span class="tag">Spring Boot</span><span class="tag">Oracle SQL</span><span class="tag">MinIO</span><span class="tag">Liquibase</span></div>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Cổng công khai ngân sách</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Nov 2025 - Dec 2025</div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Bộ Tài chính</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 5</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Java Developer</span>
+            </div>
+            <p class="muted">The Ministry of Finance's budget disclosure portal, built on Liferay. Allows users to
+                register an account and log in. Admin has the right to add, edit, and delete roles, users, and
+                organizations. Users can view and download reports, submit reports, read guidance documents from the
+                Ministry of Finance, send comments, questions and feedback to management agencies, and view budget
+                information and state budget data.</p>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li>Built header, footer, user management, organization management and decentralization, based on the existing Liferay structure</li>
+                <li>Participated in designing and coding modules such as MVC portlet and Service Builder according to project requirements</li>
+                <li>Met with BA and customers and provided solutions</li>
+            </ul>
+            <div class="tags tech"><span class="tag">Liferay</span><span class="tag">JSP</span><span class="tag">PostgreSQL</span><span class="tag">Figma</span><span class="tag">Kubernetes</span></div>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>GoFiny App</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Jan 2025 - Oct 2025</div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Vietnam - Product</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 6</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Java Backend Developer - Main</span>
+            </div>
+            <p class="muted">GoFiny is a mobile application developed using Flutter, with a Java Spring Boot back end.
+                The application allows users to register as collaborators of the company, introduce loans and
+                receive commissions. Key features:</p>
+            <ul class="features">
+                <li><b>Account:</b> register as a collaborator and change personal information, banking, password, avatar...</li>
+                <li><b>Application management:</b> create loan applications and monitor loan application status and payment status</li>
+                <li><b>Notifications:</b> real-time updates on loan application information and important information</li>
+            </ul>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li>Evaluated and built the architecture for the project</li>
+                <li>Provided solution consulting for QC and BA, and supported stakeholders</li>
+                <li>Participated in design/code and architecture reviews (Oracle, Spring Boot)</li>
+                <li>Configured Jenkins to deploy the project</li>
+                <li>Reviewed code to ensure output standards</li>
+            </ul>
+            <div class="tags tech"><span class="tag">Spring Boot</span><span class="tag">Spring Security</span><span class="tag">Oracle SQL</span><span class="tag">Postman</span><span class="tag">Jenkins</span><span class="tag">API Gateway</span><span class="tag">Figma</span></div>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Finy Software</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Mar 2023 - Dec 2024</div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Vietnam - Product</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 6</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Fullstack Developer - main Java Developer</span>
+            </div>
+            <p class="muted">Finy Software is internal software for sales, operations, appraisal and accounting. Key features:</p>
+            <ul class="features">
+                <li><b>Asset valuation:</b> lets sales value motorbikes and cars based on market data</li>
+                <li><b>Loan documents:</b> view and search customer information such as loan, asset and financial information</li>
+                <li><b>Loan:</b> lets operations approve loans, view and search disbursed, repayment schedule and rejected documents</li>
+                <li><b>Report:</b> lets operations and accountants view all types of reports (transaction list, accrual report, details, outstanding balance, summary...)</li>
+                <li><b>Deposit money:</b> money import operations when users transfer money to the company; subtracts the amount due and calculates the balance</li>
+            </ul>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li>Wrote stored procedures for the project (Oracle SQL)</li>
+                <li>Built back-end APIs according to software requirements with Spring Boot</li>
+                <li>Wrote the front end for the software</li>
+                <li>Connected with third parties to send debt reminder messages to customers</li>
+            </ul>
+            <div class="tags tech"><span class="tag">Spring Boot</span><span class="tag">Postman</span><span class="tag">Oracle SQL</span><span class="tag">Jenkins</span><span class="tag">Angular</span><span class="tag">API Gateway</span><span class="tag">Microservice</span></div>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>CarDoctor App</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Aug 2022 - Dec 2022</div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Mfunctions - Outsourcing</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 15</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Java Developer</span>
+            </div>
+            <p class="muted">CarDoctor is an application that allows registration to sell cars, and cooperates with
+                reputable garages and rescue units to provide services to car users. Users and garages can also
+                schedule car repairs and track their vehicles.</p>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li>Designed APIs for the car repair booking screens</li>
+                <li>Investigated available client APIs</li>
+                <li>Wrote APIs following Figma and mobile design</li>
+            </ul>
+            <div class="tags tech"><span class="tag">IntelliJ</span><span class="tag">Postman</span><span class="tag">MariaDB</span><span class="tag">Figma</span><span class="tag">Java Spring Boot</span></div>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Teambase CRM</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Oct 2021 - May 2022</div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Singapore - Outsourcing</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 5</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Java Developer</span>
+            </div>
+            <p class="muted">Participated in project implementation and project maintenance.</p>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li><b>Maintenance:</b> participated in configuration and environment setup; tested APIs using Postman and Newman; supported integration with customers</li>
+                <li><b>Implementation:</b> coded following the basic design as required by customers (CRUD)</li>
+            </ul>
+            <div class="tags tech"><span class="tag">IntelliJ</span><span class="tag">Postman</span><span class="tag">SQL Server</span><span class="tag">Java Spring Boot</span></div>
+        </article>
+
+        <article class="project">
+            <div class="project-head">
+                <h3>Life Net</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Aug 2021 - Oct 2021</div>
+            </div>
+            <div class="meta">
+                <span><i class="fa fa-building-o fa-fw"></i><b>Customer:</b> Japan</span>
+                <span><i class="fa fa-users fa-fw"></i><b>Team size:</b> 6</span>
+                <span><i class="fa fa-id-badge fa-fw"></i><b>Position:</b> Java Developer</span>
+            </div>
+            <p class="muted">Insurance project for customers in Japan.</p>
+            <h4>Responsibilities</h4>
+            <ul>
+                <li>Completed assigned tasks</li>
+                <li>Wrote APIs and used Swagger to test</li>
+                <li>Wrote unit tests with JUnit</li>
+                <li>Reviewed and optimized code, fixed bugs</li>
+            </ul>
+            <div class="tags tech"><span class="tag">Spring Boot</span><span class="tag">Git</span><span class="tag">Navicat</span><span class="tag">Swagger</span><span class="tag">Maven</span><span class="tag">Thymeleaf</span><span class="tag">IntelliJ</span></div>
+        </article>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+        <h2><i class="fa fa-graduation-cap"></i>Education</h2>
+        <ol class="timeline">
+            <li class="job">
+                <h3>Bachkhoa - Aptech</h3>
+                <div class="period"><i class="fa fa-calendar"></i>Oct 2017 - Oct 2020</div>
+                <ul>
+                    <li>Major: Information Technology</li>
+                    <li>Grade: Credit</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <!-- Honors & Awards -->
+    <section class="section">
+        <h2><i class="fa fa-trophy"></i>Honors &amp; Awards</h2>
+        <div class="award">
+            <span class="award-year">2024</span>
+            <span>Dedicated Employee of the Year 2024 at Lendbiz</span>
+        </div>
+    </section>
+
+    <!-- Interests -->
+    <section class="section">
+        <h2><i class="fa fa-futbol-o"></i>Interests</h2>
+        <div class="hobbies">
+            <div class="hobby"><i class="fa fa-lightbulb-o fa-fw"></i>Reading and researching new technologies</div>
+            <div class="hobby"><i class="fa fa-futbol-o fa-fw"></i>Playing soccer</div>
+            <div class="hobby"><i class="fa fa-heart fa-fw"></i>Participating in volunteer activities</div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Contact me</p>
+    <div class="social">
+        <a href="https://facebook.com/maLgnuTeL" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa fa-facebook-official"></i></a>
+        <a href="https://www.instagram.com/lamchuot_1211/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/lamlt1211/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>
     </div>
-
-    <!-- Projects Section -->
-    <div class="section">
-        <h2><i class="fa fa-wrench fa-fw"></i>Projects</h2>
-        <p>Đến công ty chỉ có đi mua bánh mỳ, pha chè cho các anh. Nên là chưa làm dự án nào cả</p>
-    </div>
-
-    <div class="section">
-        <h2><i class="fa fa-futbol-o fa-fw"></i>Hobbies</h2>
-        <p>Learn English</p>
-        <p>Read and research new technology</p>
-        <p>Participate in volunteer activities</p>
-    </div>
-
-</div>
-
-<footer class="w3-container w3-teal w3-center w3-margin-top">
-    <p>Contact for me</p>
-    <a href="https://facebook.com/maLgnuTeL">
-        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    </a>
-    <a href="https://www.instagram.com/lamchuot_1211/">
-        <i class="fa fa-instagram w3-hover-opacity"></i>
-    </a>
-    <a href="https://www.linkedin.com/in/lamlt1211/">
-        <i class="fa fa-linkedin w3-hover-opacity"></i>
-    </a>
-    <p>Powered by <a href="https://facebook.com/maLgnuTeL" target="_blank">TugLam</a></p>
+    <p style="padding-bottom:32px">Powered by <a href="https://facebook.com/maLgnuTeL" target="_blank" rel="noopener">TugLam</a></p>
 </footer>
 
 </body>
